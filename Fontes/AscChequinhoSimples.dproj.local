@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/12/14 17:24:14.000.581,=C:\Users\Alessandro Nogueira\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/01/04 19:49:43.000.233,=C:\Users\Alessandro Nogueira\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/01/04 19:52:23.000.711,D:\SISTEMAS\Delphi\AscChequinhoSimples\Fontes\untPrincipal.dfm=C:\Users\Alessandro Nogueira\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/01/04 19:52:23.000.711,D:\SISTEMAS\Delphi\AscChequinhoSimples\Fontes\untPrincipal.pas=C:\Users\Alessandro Nogueira\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/01/04 19:52:30.000.738,D:\SISTEMAS\Delphi\AscChequinhoSimples\Fontes\AscChequinhoSimples.dproj=C:\Users\Alessandro Nogueira\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,97 @@
+procedure TfrmPrincipal.StringGridClienteDblClick(Sender: TObject);
+var
+  id, st, aux, conteudo: String;
+  JSonValue: TJSonValue;
+  count: integer;
+  arq: TextFile;
+  Valor: Real;
+  CurrentLine: Integer;
+
+begin
+  id := StringGridCliente.Cells[0, StringGridCliente.Row];
+  st := NetHTTPClient.Get('https://asc-puc.anexosolucoes.com.br/api/v1/checks/'
+    + id).ContentAsString;
+  JSonValue := TJSonObject.ParseJSONValue(st);
+  count := 0;
+
+  conteudo := '';
+  CurrentLine := 1;
+  RSPrinter.Title := 'Anexo Soluções - Chequinho';
+  RSPrinter.SetModelName('Epson FX/LX/LQ');
+  RSPrinter.BeginDoc;
+  try
+
+    while True do
+    begin
+
+      try
+        // Pega o Valor do Id no Jason
+        id := JSonValue.GetValue<string>('[' + IntToStr(count) + '].id');
+      except
+        id := '';
+      end;
+      if id <> '' then
+      begin
+        // Pega o Número da Matricula
+        aux := JSonValue.GetValue<string>('[' + IntToStr(count) +
+          '].check.associate.registration');
+        // Escreve o conteudo da string no jason sem saltar a linha
+        conteudo := aux;
+
+       // Pega o Número do Registro
+        aux := JSonValue.GetValue<string>('[' + IntToStr(count) +
+          '].check.associate.rg'); //pega a estrutura do Jason
+        // Escreve o conteudo da string no jason sem saltar a linha
+
+        conteudo := conteudo + '         ' +  aux +'           '+ id;
+        RSPrinter.Write(CurrentLine,  18, conteudo);
+        CurrentLine := CurrentLine + 7;
+
+        // Pega o Número do Cheque
+        aux := JSonValue.GetValue<string>('[' + IntToStr(count) +
+          '].value');
+        try
+          Valor := StrToFloat(StringReplace(aux, '.',',',[rfReplaceAll, rfIgnoreCase]));
+        except
+          Valor := 0;
+        end;
+
+        //Pega o Nome do Cliente
+        aux := JSonValue.GetValue<string>('[' + IntToStr(count) +
+          '].check.associate.name');
+        // Escreve o conteudo da string no jason sem saltar a linha
+        RSPrinter.Write(CurrentLine,  30, copy(aux,1,40));
+        inc( CurrentLine,4);
+
+        // Pega o Valor R$
+        conteudo := Format('%m',[Valor]);
+
+        // Pega a Data de Validade
+        aux := JSonValue.GetValue<string>('[' + IntToStr(count) +
+          '].check.expiration_date'); //pega a estrutura do Jason
+        // Escreve o conteudo da string no jason sem saltar a linha
+
+        conteudo := conteudo + '      '   + copy (aux,9,2)+ '/' + copy (aux,6,2)+ '/' +copy (aux,3,2);
+        RSPrinter.Write(CurrentLine,  18, conteudo);
+        inc(CurrentLine,7);
+
+        if CurrentLine = RSPrinter.Lines-1 then
+        begin
+          CurrentLine := 1;
+        end;
+      end
+      else
+      begin
+        break;
+      end;
+      inc(count);
+    end;
+   // AssignFile(arq, 'D:\SISTEMAS\Delphi\AscChequinhoSimples\Txt\AscChequinho.txt');
+  //  Rewrite(arq);
+  //  CloseFile(arq);
+  // RSPrinter.PreviewReal;
+  RSPrinter.PrintAll;
+  finally
+    JSonValue.Free;
+end;
+end;

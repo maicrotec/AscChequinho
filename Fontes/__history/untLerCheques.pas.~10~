@@ -1,0 +1,97 @@
+unit untLerCheques;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Net.URLClient,
+  System.Net.HttpClient, System.Net.HttpClientComponent, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.ExtCtrls,Printers;
+
+type
+  TfrmLerCheques = class(TForm)
+    Label2: TLabel;
+    pnl_topo: TPanel;
+    spb_fechar: TSpeedButton;
+    spb_minimizar: TSpeedButton;
+    img_logo: TImage;
+    Label1: TLabel;
+    spb_listarcheques: TSpeedButton;
+    spb_gerartxt: TSpeedButton;
+    pnl_barra_topo: TPanel;
+    GbClientes: TGroupBox;
+    MemoCliente: TMemo;
+    SgChequinho: TStringGrid;
+    GroupBox1: TGroupBox;
+    MemoChequinho: TMemo;
+    ComboImpressoras: TComboBox;
+    BtnOKImpressora: TBitBtn;
+    BtnFinalizarVenda: TBitBtn;
+    BtnImprimirCupom: TBitBtn;
+    NetHTTPClient: TNetHTTPClient;
+
+    procedure spb_fecharClick(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLerCheques: TfrmLerCheques;
+
+implementation
+
+{$R *.dfm}
+
+uses System.JSON, RSPrint.Types.CommonTypes, WinSpool;
+
+procedure SetDefaultPrinter(PrinterName: String);
+Var
+  I: Integer;
+  Device : PChar;
+  Driver : Pchar;
+  Port : Pchar;
+  HdeviceMode: Thandle;
+  aPrinter : TPrinter;
+begin
+  Printer.PrinterIndex := -1;
+  getmem(Device, 255);
+  getmem(Driver, 255);
+  getmem(Port, 255);
+  aPrinter := TPrinter.create;
+  for I := 0 to Printer.printers.Count-1 do
+  begin
+    if Printer.printers[i] = PrinterName then
+  begin
+    aprinter.printerindex := i;
+    aPrinter.getprinter
+	(device, driver, port, HdeviceMode);
+    StrCat(Device, ',');
+    StrCat(Device, Driver );
+    StrCat(Device, Port );
+    WriteProfileString('windows', 'device', Device);
+    StrCopy( Device, 'windows' );
+    SendMessage(HWND_BROADCAST, WM_WININICHANGE, 0, Longint(@Device));
+    end;
+  end;
+     Freemem(Device, 255);
+     Freemem(Driver, 255);
+     Freemem(Port, 255);
+     aPrinter.Free;
+end;
+
+
+procprocedure TfrmLerCheques.FormShow(Sender: TObject);
+begin
+
+end;
+
+edure TfrmLerCheques.spb_fecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+
+end.

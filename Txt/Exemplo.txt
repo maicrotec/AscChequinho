@@ -1,0 +1,23 @@
+{
+  try
+{ [ 1 ] Associa a variável do programa "arq" ao arquivo externo "Chequinho.txt"
+          na unidade de disco "d" }
+    AssignFile(arq, 'D:\SISTEMAS\Delphi\Asc_ChequinhoTxt\Txt\Chequinho.txt');
+    Rewrite(arq); { [ 2 ] Cria o arquivo texto "Chequinho.txt" na unidade de disco "d" }
+
+
+
+    Writeln(arq, '+--Resultado--+'); { [ 8 ] Grava uma linha no arquivo }
+    for i:=1 to 10 do
+    begin
+{ [ 8 ] Grava uma linha da tabuada no arquivo }
+      Writeln(arq, '| ', i:2, ' X ', n, ' = ', (i*n):2, ' |');
+    end;
+    Writeln(arq, '+-------------+'); { [ 8 ] Grava uma linha no arquivo }
+
+    CloseFile(arq); { [ 1 ] Fecha o arquivo texto "Chequinho.txt". }
+
+    ShowMessage('Chequinho gravada com sucesso em "D:\SISTEMAS\Delphi\Asc_ChequinhoTxt\Txt\Chequinho.txt".');
+  except
+  end;
+ }
